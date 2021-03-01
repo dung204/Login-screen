@@ -30,7 +30,7 @@ public class SignInController implements Initializable {
 	@FXML private PasswordField passwordField;
 	@FXML private Button signInButton;
 
-	private ObservableList<TextField> textFields;
+	private ObservableList<TextField> textFields; //List for handling account, password
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -38,6 +38,7 @@ public class SignInController implements Initializable {
 
 		textFields = FXCollections.observableArrayList(accountField, passwordField);
 
+		//Add listener: whenever there's text in at least one field, login button is enabled
 		textFields.forEach(textField -> textField.textProperty().addListener((observableValue, oldVal, newVal) -> {
 			if(passwordField.getText().equals("") || accountField.getText().trim().equals(""))
 				signInButton.setDisable(true);
@@ -45,14 +46,17 @@ public class SignInController implements Initializable {
 		}));
 	}
 
+	//When clicking sign in button
 	public void signIn(Event event) {
 		try {
-			Scanner fileIn = new Scanner(Paths.get("test.sql"));
-			String account = accountField.getText().trim();
-			String password = passwordField.getText();
+			Scanner fileIn = new Scanner(Paths.get("test.sql")); //Get query
+			String account = accountField.getText().trim(); //Trailing head and tail spaces
+			String password = passwordField.getText(); //Space is considered a character, can't trail
 
 			StringBuilder command = new StringBuilder(fileIn.nextLine());
-			command = command.insert(35, account).insert(53 + account.length(), password);
+			command = command.insert(35, account).insert(53 + account.length(), password); //Insert account and password to query
+
+			//Get result and check if account and password is correct, if not throw an exception
 			ResultSet result = statement.executeQuery(command.toString());
 			result.next();
 			result.getString(1);
@@ -62,6 +66,7 @@ public class SignInController implements Initializable {
 			infoAlert.setTitle("Đăng nhập");
 			infoAlert.setHeaderText("Đăng nhập thành công");
 			infoAlert.showAndWait();
+
 		} catch (Exception e) { //When encounter error (login failed)
 			if(e.getMessage().contains("empty result set")) {
 				Alert errorAlert = new Alert(Alert.AlertType.ERROR,
@@ -79,12 +84,14 @@ public class SignInController implements Initializable {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("../frame/Home.fxml"));
 		Parent root = loader.load();
 		HomeController controller = loader.getController();
-		controller.setConnection(connection);
+		controller.setConnection(connection); //In order not to cause delay, transmits connection only
 
 		stage.setScene(new Scene(root));
 		stage.setTitle("Trang chủ");
 		stage.show();
 	}
+
+	/* SETTERS AND GETTERS */
 
 	public void setConnection(Connection connection) {
 		this.connection = connection;
@@ -106,6 +113,7 @@ public class SignInController implements Initializable {
 		return currScene;
 	}
 
+	//Enter to sign in
 	public void addListenerCurrScene() {
 		currScene.setOnKeyPressed(event -> {
 			if(event.getCode() == KeyCode.ENTER && !signInButton.isDisable()) {

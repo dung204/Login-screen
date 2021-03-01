@@ -13,6 +13,10 @@ import java.sql.ResultSet;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
+	/*
+		Inherit: connection, currScene, statement
+	 */
+
 public class SignUpController extends SignInController {
 
 	@FXML private TextField accountField;
@@ -23,7 +27,7 @@ public class SignUpController extends SignInController {
 	private ObservableList<TextField> textFields;
 	private Scanner fileIn;
 
-
+	//Same as login controller's
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 		signUpButton.setDisable(true);
@@ -51,20 +55,20 @@ public class SignUpController extends SignInController {
 			ResultSet result = getStatement().executeQuery(command.toString());
 			result.next();
 
-			if(!reEnter.equals(password)) {
+			if(!reEnter.equals(password)) { //Check if re-entered password mismatch initial password
 				Alert errorAlert = new Alert(Alert.AlertType.ERROR,
 						"Mật khẩu nhập lại phải trùng với mật khẩu ban đầu");
 				errorAlert.setTitle("Đăng ký");
 				errorAlert.setHeaderText("Đăng ký không thành công");
 				errorAlert.showAndWait();
-			} else if(!result.getString(1).equals("")) {
+			} else if(!result.getString(1).equals("")) { //Check if account has existed, throw an exception if it doesn't
 				Alert errorAlert = new Alert(Alert.AlertType.ERROR, "Tài khoản đã tồn tại");
 				errorAlert.setTitle("Đăng ký");
 				errorAlert.setHeaderText("Đăng ký không thành công");
 				errorAlert.showAndWait();
 			}
 		} catch (Exception e) {
-			if(e.getMessage().contains("empty result set")) {
+			if(e.getMessage().contains("empty result set")) { //Handle sign up successfully
 				fileIn = new Scanner(Paths.get("test2.sql"));
 				StringBuilder command = new StringBuilder(fileIn.nextLine());
 				command = command.insert(45, account).insert(49 + account.length(), password);
@@ -78,6 +82,7 @@ public class SignUpController extends SignInController {
 		}
 	}
 
+	//Same as login controller's, press enter to sign up
 	@Override
 	public void addListenerCurrScene() {
 		getCurrScene().setOnKeyPressed(event -> {

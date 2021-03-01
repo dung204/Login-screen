@@ -11,17 +11,22 @@ import java.sql.Connection;
 
 public class HomeController {
 
-	private Connection connection;
+	private Connection connection; //connection to receive from main
 
+	//When clicking sign in
 	public void signIn(ActionEvent event) throws Exception {
+		//Get current stage
 		Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("../frame/SignIn.fxml"));
 		Parent root = loader.load();
 		SignInController controller = loader.getController();
+
+		//Transmit connection and statement
 		controller.setConnection(connection);
 		controller.setStatement(connection.createStatement());
 
+		//Set scene and show
 		Scene currScene = new Scene(root);
 		controller.setCurrScene(currScene);
 		controller.addListenerCurrScene();
@@ -31,6 +36,7 @@ public class HomeController {
 		stage.show();
 	}
 
+	//Same as login's
 	public void signUp(ActionEvent event) throws Exception {
 		Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 
