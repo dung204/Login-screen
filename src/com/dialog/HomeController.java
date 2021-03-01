@@ -2,17 +2,12 @@ package com.dialog;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-import java.net.URL;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
-import java.util.ResourceBundle;
 
 public class HomeController {
 
@@ -21,7 +16,7 @@ public class HomeController {
 	public void signIn(ActionEvent event) throws Exception {
 		Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("SignIn.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("../frame/SignIn.fxml"));
 		Parent root = loader.load();
 		SignInController controller = loader.getController();
 		controller.setConnection(connection);
@@ -39,7 +34,7 @@ public class HomeController {
 	public void signUp(ActionEvent event) throws Exception {
 		Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("SignUp.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("../frame/SignUp.fxml"));
 		Parent root = loader.load();
 		SignUpController controller = loader.getController();
 		controller.setConnection(connection);

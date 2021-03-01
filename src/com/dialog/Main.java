@@ -15,7 +15,7 @@ public class Main extends Application {
 		stage.setTitle("Trang chủ");
 		stage.setResizable(false);
 
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("Home.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("../frame/Home.fxml"));
 		Parent root = loader.load();
 
 		stage.setScene(new Scene(root));

@@ -76,7 +76,7 @@ public class SignInController implements Initializable {
 	public void returnButton(ActionEvent event) throws Exception {
 		Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("Home.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("../frame/Home.fxml"));
 		Parent root = loader.load();
 		HomeController controller = loader.getController();
 		controller.setConnection(connection);
